@@ -19,5 +19,10 @@
         /// Admin: Possui controle total, podendo visualizar, editar e apagar as notas de qualquer utilizador
         /// </summary>
         public const string Admin = "Admin";
+        
+        /// <summary>
+        /// Retorna todas as funções disponíveis no sistema
+        /// </summary>
+        public static readonly string[] AllRoles = { Reader, Editor, Admin };
     }
 }
