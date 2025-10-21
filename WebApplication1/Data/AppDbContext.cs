@@ -25,6 +25,7 @@ namespace SafeScribe.Data
                 entity.Property(e => e.IsActive).IsRequired().HasConversion<int>(); // Converter bool para int para Oracle
                 
                 // Índice único para Username
+                // Nota: Oracle exige índices nomeados curtos; EF gerará um nome automático
                 entity.HasIndex(e => e.Username).IsUnique();
             });
 

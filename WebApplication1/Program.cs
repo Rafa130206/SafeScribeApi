@@ -4,6 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using SafeScribe.Data;
 using SafeScribe.Models;
+using SafeScribe.Services;
+using SafeScribe.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Serviços de autenticação
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddSingleton<ITokenBlacklistService, InMemoryTokenBlacklistService>();
 
 // Configuração JWT
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>() ?? new JwtSettings();
@@ -72,6 +78,7 @@ app.UseHttpsRedirection();
 
 // Middleware de autenticação deve vir antes da autorização
 app.UseAuthentication();
+app.UseMiddleware<JwtBlacklistMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
