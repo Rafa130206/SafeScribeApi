@@ -14,9 +14,10 @@ namespace SafeScribe.Models
         public string Content { get; set; } = string.Empty;
         
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        
+
         public DateTime? UpdatedAt { get; set; }
-        
+
+        [Required]
         public int UserId { get; set; }
         public User? User { get; set; }
         
